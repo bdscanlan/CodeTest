@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Validus Code Test", "Validus Code Test.csproj", "{CD82B0E1-D7A3-4DD2-A986-E0AC14F77CF9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Validus Web Api2", "Validus Web Api2\Validus Web Api2.csproj", "{EA7814C1-A9F2-413E-A1EA-F832B7217FDE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CD82B0E1-D7A3-4DD2-A986-E0AC14F77CF9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CD82B0E1-D7A3-4DD2-A986-E0AC14F77CF9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CD82B0E1-D7A3-4DD2-A986-E0AC14F77CF9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CD82B0E1-D7A3-4DD2-A986-E0AC14F77CF9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EA7814C1-A9F2-413E-A1EA-F832B7217FDE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EA7814C1-A9F2-413E-A1EA-F832B7217FDE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EA7814C1-A9F2-413E-A1EA-F832B7217FDE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EA7814C1-A9F2-413E-A1EA-F832B7217FDE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
