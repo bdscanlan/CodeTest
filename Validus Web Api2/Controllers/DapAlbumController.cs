@@ -100,8 +100,6 @@ namespace Validus_Web_Api2.Controllers
                 {
                     conn.Open();
 
-                    string sqlArtist =  " INSERT INTO Artist (Name, Created, LastModified) " +
-                                        " SELECT FROM Artist "
 
                     string sqlAlbum = " INSERT INTO Album (Name, YearReleased, Created, LastModified, Artist_Id)                                     " +
                                     " SELECT AA.*, A.Id FROM (                                                                                  " +
