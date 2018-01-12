@@ -175,18 +175,7 @@ namespace Validus_Web_Api2.Controllers
         // DELETE: api/Song/5
         public void Delete(int id)
         {
-            var db = new MusicContext();
-
-            Album album = db.Album.Where(s => s.Id == id).FirstOrDefault();
-
-            if (album == null)
-            {
-                return;
-            }
-
-            db.Album.Remove(album);
-
-            db.SaveChanges();
+            
         }
     }
 }
