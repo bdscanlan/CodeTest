@@ -114,6 +114,7 @@ namespace Validus_Web_Api2.Controllers
             #endregion
 
             #region Validate input data
+            // https://stackoverflow.com/questions/10732644/best-practice-to-return-errors-in-asp-net-web-api
             if (value.name == null || value.name == string.Empty)
             {
                 var message = "Album must have a name";
