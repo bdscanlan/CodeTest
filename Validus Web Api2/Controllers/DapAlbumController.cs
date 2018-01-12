@@ -92,10 +92,10 @@ namespace Validus_Web_Api2.Controllers
         }
 
         // POST: api/Song
-        public void Post([FromBody]Album value)
+        public HttpResponseMessage Post([FromBody]Album value)
         {
             #region Fiddler Test Script
-            
+
             //POST http://localhost:65529/DapAlbum/1 HTTP/1.1
             //User-Agent: Fiddler
             //Host: localhost:65529
@@ -112,6 +112,22 @@ namespace Validus_Web_Api2.Controllers
             //}
 
             #endregion
+
+            #region Validate input data
+            if (value.name == null || value.name == string.Empty)
+            {
+                var message = "Album must have a name";
+                HttpError err = new HttpError(message);
+                return Request.CreateResponse(HttpStatusCode.BadRequest, err);
+            }
+            if (value.yearReleased == 0)
+            {
+                var message = "yearReleased must have a non-zero value";
+                HttpError err = new HttpError(message);
+                return Request.CreateResponse(HttpStatusCode.BadRequest, err);
+            }
+            #endregion
+
             try
             {
                 using (var conn = new SqlConnection("Server=.;Database=scratch;Integrated Security=True;"))
@@ -164,6 +180,9 @@ namespace Validus_Web_Api2.Controllers
             {
                 Console.WriteLine(ex.Message);
             }
+
+            return Request.CreateResponse(HttpStatusCode.OK);
+
         }
 
         // PUT: api/Song/5
