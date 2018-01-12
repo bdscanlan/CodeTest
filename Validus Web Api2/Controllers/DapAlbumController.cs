@@ -100,6 +100,15 @@ namespace Validus_Web_Api2.Controllers
                 {
                     conn.Open();
 
+                    // INSERT previously unknown artists
+                    string sqlArtist = " INSERT INTO Artist (Name, Created, LastModified)                       " +
+                                        " SELECT Data.Name, Data.Created, Data.LastModified FROM (              " +
+                                        " SELECT @Name Name, GetDate() Created, GetDate() LastModified ) Data     " +
+                                        " LEFT OUTER JOIN Artist R                                              " + 
+                                        "   ON Data.Name = R.Name                                               " +
+                                        " WHERE R.Name IS NULL                                                  ";
+
+                    var artistQuery = conn.Execute(sqlArtist, new { @Name = value.artist.name });
 
                     string sqlAlbum = " INSERT INTO Album (Name, YearReleased, Created, LastModified, Artist_Id)                                     " +
                                     " SELECT AA.*, A.Id FROM (                                                                                  " +
@@ -110,7 +119,7 @@ namespace Validus_Web_Api2.Controllers
                                     
 
                     var ax = conn.Execute(
-                        sqlAlbum, new { Name = value.name, @YearReleased = value.yearReleased, @Created = DateTime.Now, @LastModified = DateTime.Now, @AName = value.artist.name }
+                        sqlAlbum, new { @Name = value.name, @YearReleased = value.yearReleased, @Created = DateTime.Now, @LastModified = DateTime.Now, @AName = value.artist.name }
                     );
 
                 }
