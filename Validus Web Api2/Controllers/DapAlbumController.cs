@@ -146,7 +146,7 @@ namespace Validus_Web_Api2.Controllers
                     if (value.artist.name != null && value.name != null)
                     {
                         string sqlAlbumArtist = " INSERT INTO artist_albums (artist_id, albums_id)                          " +
-                                                " SELECT DATA.artist_Id, Data.album_Id      FROM (                          "  +
+                                                " SELECT DATA.artist_Id, Data.album_Id      FROM (                          " +
                                                 "   SELECT  AL.Artist_Id,  AL.ID album_Id                                   " +
                                                 "   FROM    Album AL                                                        " +
                                                 "   WHERE AL.Name = @Name and AL.YearReleased = @YearReleased ) Data        " +
