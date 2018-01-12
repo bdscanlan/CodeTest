@@ -94,34 +94,70 @@ namespace Validus_Web_Api2.Controllers
         // POST: api/Song
         public void Post([FromBody]Album value)
         {
+            #region Fiddler Test Script
+            
+            //POST http://localhost:65529/DapAlbum/1 HTTP/1.1
+            //User-Agent: Fiddler
+            //Host: localhost:65529
+            //Content-Type: application/json
+            //Content-Length: 76
+
+            //{
+            //name:'Boston 2',
+            //yearReleased: '1977',
+            //Artist :
+            //{
+            //name:'Boston'
+            //}
+            //}
+
+            #endregion
             try
             {
                 using (var conn = new SqlConnection("Server=.;Database=scratch;Integrated Security=True;"))
                 {
                     conn.Open();
 
-                    // INSERT previously unknown artists
-                    string sqlArtist = " INSERT INTO Artist (Name, Created, LastModified)                       " +
-                                        " SELECT Data.Name, Data.Created, Data.LastModified FROM (              " +
-                                        " SELECT @Name Name, GetDate() Created, GetDate() LastModified ) Data     " +
-                                        " LEFT OUTER JOIN Artist R                                              " + 
-                                        "   ON Data.Name = R.Name                                               " +
-                                        " WHERE R.Name IS NULL                                                  ";
+                    if (value.artist.name != null && value.name != null )
+                    {
+                        // INSERT previously unknown artists
+                        string sqlArtist = " INSERT INTO Artist (Name, Created, LastModified)                      " +
+                                            " SELECT Data.Name, Data.Created, Data.LastModified FROM (              " +
+                                            " SELECT @Name Name, GetDate() Created, GetDate() LastModified ) Data   " +
+                                            " LEFT OUTER JOIN Artist R                                              " +
+                                            "   ON Data.Name = R.Name                                               " +
+                                            " WHERE R.Name IS NULL                                                  ";
 
-                    var artistQuery = conn.Execute(sqlArtist, new { @Name = value.artist.name });
+                        var artistQuery = conn.Execute(sqlArtist, new { @Name = value.artist.name });
+                    }
 
-                    string sqlAlbum = " INSERT INTO Album (Name, YearReleased, Created, LastModified, Artist_Id)                                     " +
-                                    " SELECT AA.*, A.Id FROM (                                                                                  " +
-                                    " SELECT @Name Name, @YearReleased yearReleased, @Created Created, @LastModified LastModified   )    AA     " +
-                                    " LEFT OUTER JOIN Artist A   ON     A.Name = @AName                                                         " +
-                                    " LEFT OUTER JOIN Album  P   ON P.Name = @Name  AND P.YearReleased = @YearReleased                          " +
-                                    " WHERE P.Name IS NULL ";
+                    string sqlAlbum =   " INSERT INTO Album (Name, YearReleased, Created, LastModified, Artist_Id)                                  " +
+                                        " SELECT AA.*, A.Id FROM (                                                                                  " +
+                                        " SELECT @Name Name, @YearReleased yearReleased, @Created Created, @LastModified LastModified   )    AA     " +
+                                        " LEFT OUTER JOIN Artist A   ON     A.Name = @AName                                                         " +
+                                        " LEFT OUTER JOIN Album  P   ON P.Name = @Name  AND P.YearReleased = @YearReleased                          " +
+                                        " WHERE P.Name IS NULL                                                                                      ";
                                     
-
+                    
                     var ax = conn.Execute(
                         sqlAlbum, new { @Name = value.name, @YearReleased = value.yearReleased, @Created = DateTime.Now, @LastModified = DateTime.Now, @AName = value.artist.name }
                     );
 
+                    if (value.artist.name != null && value.name != null)
+                    {
+                        string sqlAlbumArtist = " INSERT INTO artist_albums (artist_id, albums_id)                          " +
+                                                " SELECT DATA.artist_Id, Data.album_Id      FROM (                          "  +
+                                                "   SELECT  AL.Artist_Id,  AL.ID album_Id                                   " +
+                                                "   FROM    Album AL                                                        " +
+                                                "   WHERE AL.Name = @Name and AL.YearReleased = @YearReleased ) Data        " +
+                                                " LEFT OUTER JOIN artist_albums AA                                          " + 
+                                                "   ON  DATA.Album_Id   = AA.albums_Id                                      " + 
+                                                "   AND DATA.artist_Id  = AA.Artist_Id                                      " +
+                                                " WHERE AA.artist_Id IS NULL                                                ";
+
+                        var aa = conn.Execute(sqlAlbumArtist, new { @Name = value.name, @YearReleased = value.yearReleased });
+                    
+                    }
                 }
             }
             catch(Exception  ex)
